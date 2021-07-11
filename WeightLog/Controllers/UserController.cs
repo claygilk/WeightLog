@@ -9,7 +9,6 @@ using WeightLog.Models;
 namespace WeightLog.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class UserController : Controller
     {
         private readonly IMaxDAO maxDAO;
@@ -21,7 +20,8 @@ namespace WeightLog.Controllers
             this.logDAO = _logDAO;
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet]
+        [Route("/{userId}")]
         public ActionResult<List<Max>> GetUsersMaxes(int userId)
         {
             List<Max> maxes = this.maxDAO.GetMaxes(userId);
@@ -34,7 +34,8 @@ namespace WeightLog.Controllers
             return NotFound();
         }
 
-        [HttpGet("{userId}/Max-{lift}")]
+        [HttpGet]
+        [Route("/{userId}/Max-{lift}")]
         public ActionResult<Max> GetLiftMax(int userId, string lift)
         {
             Max max = this.maxDAO.GetLiftMax(userId, lift);
@@ -42,7 +43,8 @@ namespace WeightLog.Controllers
             return max;
         }
 
-        [HttpPost("{userId}/Set")]
+        [HttpPost]
+        [Route("/{userId}/Set")]
         public ActionResult<Set> PostNewSet(int userId, Set set)
         {
             Set loggedSet = this.logDAO.LogNewSet(set);
@@ -57,7 +59,8 @@ namespace WeightLog.Controllers
             }
         }
 
-        [HttpGet("{userId}/Set-{setId}")]
+        [HttpGet]
+        [Route("/{userId}/Set-{setId}")]
         public ActionResult<Set> GetLoggedSetById(int userId, int setId)
         {
             Set set = this.logDAO.LookupSetById(userId, setId);
